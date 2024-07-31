@@ -5,13 +5,13 @@
 
 # 🛠️ 기술스택
 
-+ Language : JAVA
-+ Build : MAVEN
-+ Database : MariaDB
-+ Server : Tomcat 10.1.26
-+ JDK : OPENJDK-17
-+ Web : JSP
-+ Library : Lombok, Okhttp3, Gson, Jakarta
++ **Language** : JAVA
++ **Build** : MAVEN
++ **Database** : MariaDB
++ **Server** : Tomcat 10.1.26
++ **JDK** : OPENJDK-17
++ **Web** : JSP
++ **Library** : Lombok, Okhttp3, Gson, Jakarta
 
 
 # 🔴 주요기능설명
