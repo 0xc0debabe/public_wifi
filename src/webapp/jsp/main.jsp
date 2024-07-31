@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ page import="com.hmw.jsp.wifi.dao.SearchWifi" %>
+<%@ page import="com.hmw.jsp.wifi.dao.HistoryDao" %>
 <%@ page import="com.hmw.jsp.wifi.dto.WifiDto" %>
+<%@ page import="com.hmw.jsp.wifi.dto.HistoryDto" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 
@@ -45,6 +47,8 @@
         }
     });
 
+
+
     getNearByWifi.addEventListener("click", function (){
         let latitude = document.getElementById("lat").value;
         let longitude = document.getElementById("lnt").value;
@@ -86,6 +90,9 @@
     <%
     if (lat != null && lnt != null) {
     SearchWifi searchWifi = new SearchWifi();
+    HistoryDao historyDao = new HistoryDao();
+    historyDao.saveHistory(lat, lnt);
+
     List<WifiDto> list = searchWifi.getNearbyWifi(lat, lnt);
 
         if (list != null) {

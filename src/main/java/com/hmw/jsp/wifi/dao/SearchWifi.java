@@ -26,9 +26,9 @@ public class SearchWifi {
             String sql = " SELECT *, " +
                     " round(6371*acos(cos(radians(?))*cos(radians(LAT))*cos(radians(LNT) " +
                     " -radians(?))+sin(radians(?))*sin(radians(LAT))), 4) " +
-                    " AS distance " +
+                    " AS dist " +
                     " FROM wifi_info " +
-                    " ORDER BY distance " +
+                    " ORDER BY dist " +
                     " LIMIT 20;";
 
             ps = c.prepareStatement(sql);
@@ -40,7 +40,7 @@ public class SearchWifi {
 
             while (rs.next()) {
                 WifiDto wifiDto = WifiDto.builder()
-                        .distance(rs.getDouble("distance"))
+                        .distance(rs.getDouble("dist"))
                         .X_SWIFI_MGR_NO(rs.getString("X_SWIFI_MGR_NO"))
                         .X_SWIFI_WRDOFC(rs.getString("X_SWIFI_WRDOFC"))
                         .X_SWIFI_MAIN_NM(rs.getString("X_SWIFI_MAIN_NM"))
@@ -88,6 +88,7 @@ public class SearchWifi {
 
             while (rs.next()) {
                 wifiDto = WifiDto.builder()
+                        .id(rs.getLong("id"))
                         .distance(dist)
                         .X_SWIFI_MGR_NO(rs.getString("X_SWIFI_MGR_NO"))
                         .X_SWIFI_WRDOFC(rs.getString("X_SWIFI_WRDOFC"))
@@ -107,6 +108,55 @@ public class SearchWifi {
                         .WORK_DTTM(rs.getString("WORK_DTTM"))
                         .build();
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbConnect.close(c, ps, rs);
+        }
+
+        return wifiDto;
+    }
+
+    public WifiDto findWifiInfoById(long id) {
+        Connection c = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        WifiDto wifiDto = null;
+
+        try {
+            c = dbConnect.connectionDB();
+            String sql = "SELECT * FROM wifi_info" +
+                    " WHERE id = ?";
+
+            ps = c.prepareStatement(sql);
+            ps.setLong(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                wifiDto = WifiDto.builder()
+                        .id(rs.getLong("id"))
+                        .distance(rs.getDouble("distance"))
+                        .X_SWIFI_MGR_NO(rs.getString("X_SWIFI_MGR_NO"))
+                        .X_SWIFI_WRDOFC(rs.getString("X_SWIFI_WRDOFC"))
+                        .X_SWIFI_MAIN_NM(rs.getString("X_SWIFI_MAIN_NM"))
+                        .X_SWIFI_ADRES1(rs.getString("X_SWIFI_ADRES1"))
+                        .X_SWIFI_ADRES2(rs.getString("X_SWIFI_ADRES2"))
+                        .X_SWIFI_INSTL_FLOOR(rs.getString("X_SWIFI_INSTL_FLOOR"))
+                        .X_SWIFI_INSTL_TY(rs.getString("X_SWIFI_INSTL_TY"))
+                        .X_SWIFI_INSTL_MBY(rs.getString("X_SWIFI_INSTL_MBY"))
+                        .X_SWIFI_SVC_SE(rs.getString("X_SWIFI_SVC_SE"))
+                        .X_SWIFI_CMCWR(rs.getString("X_SWIFI_CMCWR"))
+                        .X_SWIFI_CNSTC_YEAR(rs.getString("X_SWIFI_CNSTC_YEAR"))
+                        .X_SWIFI_INOUT_DOOR(rs.getString("X_SWIFI_INOUT_DOOR"))
+                        .X_SWIFI_REMARS3(rs.getString("X_SWIFI_REMARS3"))
+                        .LAT(rs.getString("LAT"))
+                        .LNT(rs.getString("LNT"))
+                        .WORK_DTTM(rs.getString("WORK_DTTM"))
+                        .build();
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

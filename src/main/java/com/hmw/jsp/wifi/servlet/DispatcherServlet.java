@@ -30,6 +30,12 @@ public class DispatcherServlet extends HttpServlet {
             case "/wifi/bookmark-group-edit-submit.jsp" -> wifiController.editSubmitBookMark(rq);
             case "/wifi/bookmark-group-delete.jsp" -> wifiController.deleteBookMarkForm(rq);
             case "/wifi/bookmark-group-delete-submit.jsp" -> wifiController.deleteSubmitBookMark(rq);
+            case "/wifi/bookmark-add-submit.jsp" -> wifiController.addBookMarkList(rq);
+            case "/wifi/bookmark-list.jsp" -> wifiController.showBookmarkList(rq);
+            case "/wifi/bookmark-delete.jsp" -> wifiController.deleteBookMarkList(rq);
+            case "/wifi/bookmark-delete-submit.jsp" -> wifiController.deleteSubmitBookMarkList(rq);
+            case "/wifi/historyList.jsp" -> wifiController.showHistoryList(rq);
+            case "/wifi/history-delete.jsp" -> wifiController.deleteHistory(rq);
         }
 
     }

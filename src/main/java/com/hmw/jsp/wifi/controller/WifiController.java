@@ -1,10 +1,15 @@
 package com.hmw.jsp.wifi.controller;
 
 import com.hmw.jsp.wifi.Rq;
+import com.hmw.jsp.wifi.dao.HistoryDao;
 import com.hmw.jsp.wifi.dto.BookMarkGroupDto;
+import com.hmw.jsp.wifi.dto.BookmarkListDto;
+import com.hmw.jsp.wifi.dto.HistoryDto;
 import com.hmw.jsp.wifi.dto.WifiDto;
 import com.hmw.jsp.wifi.service.WifiService;
 
+import java.awt.datatransfer.FlavorListener;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,7 +26,11 @@ public class WifiController {
         String mgrNo = rq.getParam("mgrNo", "");
         double distance = Double.parseDouble(rq.getParam("distance", ""));
         WifiDto wifiDto = wifiService.findOne(mgrNo, distance);
+
+        List<BookMarkGroupDto> bookMarkGroupDtoList = wifiService.findAll();
+        rq.setAttr("list", bookMarkGroupDtoList);
         rq.setAttr("wifiDto", wifiDto);
+        rq.setAttr("mgrNo", mgrNo);
         rq.view("wifi/detail");
     }
 
@@ -68,5 +77,44 @@ public class WifiController {
         long id = Long.parseLong(rq.getParam("id", ""));
         wifiService.bookMarkGroupDel(id);
         rq.view("/wifi/bookmark-group-delete-submit");
+    }
+
+    public void addBookMarkList(Rq rq) {
+        long bgId = Long.parseLong(rq.getParam("bgId", ""));
+        long wifiId = Long.parseLong(rq.getParam("wifiId", ""));
+        wifiService.saveBookMarkToList(bgId, wifiId);
+        rq.view("/wifi/bookmark-add-submit");
+    }
+
+    public void showBookmarkList(Rq rq) {
+        List<BookmarkListDto> bookmarkListDtos = wifiService.showBookMarkList();
+        rq.setAttr("bookmarkListDtos", bookmarkListDtos);
+        rq.view("/wifi/bookmark-list");
+    }
+
+    public void deleteBookMarkList(Rq rq) {
+        long listId = Long.parseLong(rq.getParam("id", ""));
+        BookmarkListDto bookmarkListDto = wifiService.findBookMarkListById(listId);
+        rq.setAttr("bookmarkListDto", bookmarkListDto);
+        rq.view("/wifi/bookmark-delete");
+    }
+
+    public void deleteSubmitBookMarkList(Rq rq) {
+        long blid = Long.parseLong(rq.getParam("id", ""));
+        wifiService.deleteBookMarkList(blid);
+        rq.view("/wifi/bookmark-delete-submit");
+    }
+
+
+    public void showHistoryList(Rq rq) {
+        List<HistoryDto> list = wifiService.showHistoryList();
+        rq.setAttr("list", list);
+        rq.view("/wifi/showHistory");
+    }
+
+    public void deleteHistory(Rq rq) {
+        long id = Long.parseLong(rq.getParam("id", ""));
+        wifiService.deleteHistory(id);
+        rq.view("/wifi/history-delete-submit");
     }
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WifiDto {
+    private long id;
     private double distance;
     private String X_SWIFI_MGR_NO;
     private String X_SWIFI_WRDOFC;

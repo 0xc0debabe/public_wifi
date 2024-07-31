@@ -10,6 +10,7 @@
 BookMarkGroupDto bm = (BookMarkGroupDto)request.getAttribute("bookMarkGroupDto");
 %>
 
+
 <body>
 <h1>위치 히스토리 목록</h1>
 <%@include file="/jsp/header.jsp"%>

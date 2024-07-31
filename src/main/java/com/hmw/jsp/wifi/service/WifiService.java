@@ -1,9 +1,9 @@
 package com.hmw.jsp.wifi.service;
 
-import com.hmw.jsp.wifi.dao.BookMarkDao;
-import com.hmw.jsp.wifi.dao.SearchWifi;
-import com.hmw.jsp.wifi.dao.WifiData;
+import com.hmw.jsp.wifi.dao.*;
 import com.hmw.jsp.wifi.dto.BookMarkGroupDto;
+import com.hmw.jsp.wifi.dto.BookmarkListDto;
+import com.hmw.jsp.wifi.dto.HistoryDto;
 import com.hmw.jsp.wifi.dto.WifiDto;
 
 import java.io.IOException;
@@ -13,6 +13,8 @@ public class WifiService {
     private WifiData wifiData = new WifiData();
     private SearchWifi searchWifi = new SearchWifi();
     private BookMarkDao bookMarkDao = new BookMarkDao();
+    private BookMarkListDao bookMarkListDao = new BookMarkListDao();
+    private HistoryDao historyDao = new HistoryDao();
 
     public int getDataBases() {
         try {
@@ -47,5 +49,33 @@ public class WifiService {
 
     public void bookMarkGroupDel(long id) {
         bookMarkDao.bookMarkGroupDel(id);
+    }
+
+    public void saveBookMarkToList(long id, long wifiId) {
+        bookMarkListDao.saveBookMarkToList(id, wifiId);
+    }
+
+    public List<BookmarkListDto> showBookMarkList() {
+        List<BookmarkListDto> bookmarkListDtos = bookMarkListDao.showBookMarkList();
+        return bookmarkListDtos;
+    }
+
+    public void deleteBookMarkList(long blid) {
+        bookMarkListDao.deleteBookMarkList(blid);
+    }
+
+    public BookmarkListDto findBookMarkListById(long listId) {
+        BookmarkListDto bookmarkListDto = bookMarkListDao.findBookMarkListById(listId);
+
+        return bookmarkListDto;
+    }
+
+    public List<HistoryDto>  showHistoryList() {
+        List<HistoryDto>  list = historyDao.showHistoryList();
+        return list;
+    }
+
+    public void deleteHistory(long id) {
+        historyDao.deleteHistory(id);
     }
 }

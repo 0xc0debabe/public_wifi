@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.hmw.jsp.wifi.dto.WifiDto" %>
+<%@ page import="com.hmw.jsp.wifi.dto.BookMarkGroupDto" %>
+<%@ page import="java.util.ArrayList" %>
 
 <head>
     <meta charset="UTF-8">
@@ -8,18 +10,28 @@
 
 <%
     WifiDto wifiDto = (WifiDto)request.getAttribute("wifiDto");
+    ArrayList<BookMarkGroupDto> list = (ArrayList<BookMarkGroupDto>)request.getAttribute("list");
 %>
 
 <body>
 <h1>와이파이 정보 구하기</h1>
 <%@include file="/jsp/header.jsp"%>
 
-    <br>
-    <select>
-        <option value="test">test</option>
-    </select>
-    <input type="submit" value="북마크 추가하기">
-    <br>
+    <form action="/wifi/bookmark-add-submit.jsp", method="get">
+        <br>
+        <select name="bgId">
+            <option value="none" selected>북마크 그룹 이름 선택</option>
+            <% for (BookMarkGroupDto bg : list) { %>
+                <option value="<%=bg.getId()%>">
+                    <%=bg.getName()%>
+                </option>
+            <% } %>
+        </select>
+        <input type="submit" value="북마크 추가하기">
+        <input hidden="hidden" name="wifiId" value="<%=wifiDto.getId()%>">
+        <br>
+    </form>
+
 
 <table>
     <tr>
